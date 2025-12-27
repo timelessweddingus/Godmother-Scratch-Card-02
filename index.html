@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700italic,700' rel='stylesheet' type='text/css'>
+  
+  <title>God Mother Scratch Off Card</title>
+  <style type="text/css">
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+.scratchpad {
+  width: 450px;
+  height: 800px;
+  border: solid 10px #FFFFFF;
+  margin: 0 auto;
+}
+body {
+    background: #efefef;
+}
+.scratch-container {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 100%;
+}
+@media only screen and (max-width: 480px) {
+  .scratchpad {width: 400px; height: 396px;}
+  .scratch-container {width: 400px !important;}
+}
+@media only screen and (max-width: 450px) {
+  .scratchpad {width: 450px; height: 800px;}
+  .scratch-container {width: 450px !important;}
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.try-again-btn,
+.download-btn {
+  background: #FF6B6B;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+  </style>
+
+</head>
+<body>
+
+<div class="scratch-container">
+  <div id="scratchArea" class="scratchpad"></div>
+</div>
+
+<div class="button-container">
+  <button class="try-again-btn" id="tryAgain">Try Again</button>
+  <button class="download-btn" id="downloadBtn">Download</button>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script type="text/javascript" src="./wScratchPad.min.js"></script>
+
+<script type="text/javascript">
+var bg1 = 'images/back.png';
+var bg2 = 'images/back.png';
+var bg3 = 'images/back.png';
+var bgArray = [bg1, bg2, bg3];
+var selectBG = bgArray[Math.floor(Math.random() * bgArray.length)];
+
+$('#scratchArea').wScratchPad({
+    size: 25,    
+    bg: selectBG,
+    realtime: true, 
+    fg: 'images/front.png',
+    'cursor': 'url("") 5 5, default',
+    scratchMove: function (e, percent) {
+        if (percent > 50) {
+          $('body').removeClass('not-selectable');
+        }
+    }
+});
+
+$('#tryAgain').on('click', function () {
+  $('#scratchArea').wScratchPad('clear');
+  $('#scratchArea').wScratchPad('reset'); 
+});
+
+$('#downloadBtn').on('click', function () {
+  html2canvas(document.querySelector(".scratchpad"), {
+    scale: 3  
+  }).then(canvas => {
+    let link = document.createElement('a');
+    link.download = 'scratch-image.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+});
+</script>
+
+</body>
+</html>
