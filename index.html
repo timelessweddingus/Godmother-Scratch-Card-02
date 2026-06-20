@@ -32,12 +32,13 @@ body {
   width: 100%;
 }
 @media only screen and (max-width: 480px) {
-  .scratchpad {width: 400px; height: 396px;}
+  .scratchpad {width: 400px; height: 711px;} /* Height ko theek kar diya hai */
   .scratch-container {width: 400px !important;}
 }
+
 @media only screen and (max-width: 450px) {
-  .scratchpad {width: 450px; height: 800px;}
-  .scratch-container {width: 450px !important;}
+  .scratchpad {width: 100%; height: 711px;} /* Choti screens ke liye width 100% rakhein */
+  .scratch-container {width: 100% !important;}
 }
 .button-container {
   display: flex;
