@@ -57,6 +57,16 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+    /* Add this to your existing CSS */
+.scratchpad img, 
+.scratchpad canvas {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
   </style>
 
 </head>
@@ -106,15 +116,28 @@ $('#tryAgain').on('click', function () {
 });
 
 $('#downloadBtn').on('click', function () {
+  // Try changing button text so user knows it's processing
+  var btn = $(this);
+  var originalText = btn.text();
+  btn.text('Downloading...');
+
   html2canvas(document.querySelector(".scratchpad"), {
-    scale: 3,             // 3x high-res output
-    useCORS: true,        // Image loading issues ko roknay ke liye
-    allowTaint: true      // Cross-origin image safety bypass
+    scale: 4,                  // Scale ko 4 kar diya hai for extra sharpness
+    backgroundColor: null,     // Transparent background
+    useCORS: true,             // Image cross-origin support
+    allowTaint: true,
+    logging: false,
+    imageTimeout: 0            // Wait till all images are perfectly loaded
   }).then(canvas => {
     let link = document.createElement('a');
-    link.download = 'scratch-card.png';
-    link.href = canvas.toDataURL('image/png');
+    link.download = 'scratch-card-hd.png';
+    // Use 'image/jpeg' with 1.0 quality if PNG is still giving issues, 
+    // but PNG is usually best for text.
+    link.href = canvas.toDataURL('image/png'); 
     link.click();
+    
+    // Reset button text
+    btn.text(originalText);
   });
 });
 </script>
