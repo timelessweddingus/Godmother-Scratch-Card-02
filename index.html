@@ -77,6 +77,10 @@ body {
 <script type="text/javascript" src="./wScratchPad.min.js"></script>
 
 <script type="text/javascript">
+// 1. Force High Resolution for wScratchPad
+// Isko html2canvas ke scale (3) ke barabar rakhna zaroori hai
+window.devicePixelRatio = 3; 
+
 var bg1 = 'images/back.png';
 var bg2 = 'images/back.png';
 var bg3 = 'images/back.png';
@@ -103,10 +107,12 @@ $('#tryAgain').on('click', function () {
 
 $('#downloadBtn').on('click', function () {
   html2canvas(document.querySelector(".scratchpad"), {
-    scale: 3  
+    scale: 3,             // 3x high-res output
+    useCORS: true,        // Image loading issues ko roknay ke liye
+    allowTaint: true      // Cross-origin image safety bypass
   }).then(canvas => {
     let link = document.createElement('a');
-    link.download = 'scratch-image.png';
+    link.download = 'scratch-card.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
   });
